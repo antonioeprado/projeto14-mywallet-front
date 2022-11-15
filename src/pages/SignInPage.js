@@ -1,18 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyledWrapper } from "../assets/styles/PageWrapper";
 import { StyledTitle } from "../assets/styles/TextLogo";
 import { StyledInput } from "../assets/styles/Input";
 import { FullWidthButton } from "../assets/styles/Buttons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { textColor } from "../assets/styles/Colors";
+import axios from "axios";
+import { URLS } from "../assets/constants/URLS";
 
 function SignInPage(props) {
-	const { form, setForm, signIn } = props;
+	const [signInForm, setSignInForm] = useState({ email: "", password: "" });
+	const navigate = useNavigate();
+
+	function signIn(e) {
+		e.preventDefault();
+		const config = {
+			method: "post",
+			headers: {
+				"Access-Control-Allow-Origin": "*",
+				"Content-Type": "application/json",
+			},
+			data: {
+				...signInForm,
+			},
+		};
+		axios(URLS.signIn, config)
+			.then((res) => {
+				console.log(res.data);
+				navigate("/home");
+			})
+			.catch((err) => console.log(err.response.data));
+	}
 
 	function handleForm(e) {
 		const { name, value } = e.target;
-		setForm({
-			...form,
+		setSignInForm({
+			...signInForm,
 			[name]: value,
 		});
 	}
@@ -27,13 +50,13 @@ function SignInPage(props) {
 				<StyledInput
 					name='email'
 					placeholder='E-mail'
-					value={form.email}
+					value={signInForm.email}
 					onChange={handleForm}
 				/>
 				<StyledInput
 					name='password'
 					placeholder='Senha'
-					value={form.password}
+					value={signInForm.password}
 					onChange={handleForm}
 				/>
 				<FullWidthButton>Entrar</FullWidthButton>
