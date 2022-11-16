@@ -5,7 +5,7 @@ import SignUpPage from "./pages/SignUpPage";
 import { useState } from "react";
 import { LoginContext } from "./assets/contexts/UserContext";
 import HomePage from "./pages/HomePage";
-import NewEntryPage from "./pages/NewEntryPage";
+import NewExpensePage from "./pages/NewExpensePage";
 
 function App() {
 	const [user, setUser] = useState({ name: "", email: "", token: "" });
@@ -29,7 +29,7 @@ function App() {
 					/>
 					<Route
 						path='/entry'
-						element={<NewEntryPage />}
+						element={<NewExpensePage />}
 					></Route>
 				</Routes>
 			</Router>

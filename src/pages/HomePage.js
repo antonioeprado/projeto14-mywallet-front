@@ -34,11 +34,15 @@ function HomePage() {
 			<Topbar username={User.name} />
 			<Registry expenses={expenses} />
 			<ButtonsWrapper>
-				<HalfWidthButton onClick={() => navigate("/entry")}>
+				<HalfWidthButton
+					onClick={() => navigate("/entry", { state: { type: "in" } })}
+				>
 					<ion-icon name='add-circle-outline'></ion-icon>
 					<ButtonsText>Nova entrada</ButtonsText>
 				</HalfWidthButton>
-				<HalfWidthButton>
+				<HalfWidthButton
+					onClick={() => navigate("/entry", { state: { type: "out" } })}
+				>
 					<ion-icon name='remove-circle-outline'></ion-icon>
 					<ButtonsText>Nova saída</ButtonsText>
 				</HalfWidthButton>

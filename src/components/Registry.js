@@ -8,7 +8,7 @@ function Registry(props) {
 			{expenses ? (
 				expenses.map((expense) => (
 					<StyledParagraph
-						key={expense.id}
+						key={expense.item}
 						type={expense.type}
 					>
 						<span>

@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { URLS } from "../assets/constants/URLS";
 import { FullWidthButton } from "../assets/styles/Buttons";
@@ -8,9 +8,14 @@ import { StyledWrapper } from "../assets/styles/PageWrapper";
 import { StyledInput } from "../assets/styles/Input";
 import { LoginContext } from "../assets/contexts/UserContext";
 
-function NewEntryPage() {
+function NewExpensePage() {
+	const location = useLocation();
 	const { token } = useContext(LoginContext);
-	const [form, setForm] = useState({ value: "", description: "", type: "in" });
+	const [form, setForm] = useState({
+		value: "",
+		description: "",
+		type: location.state.type,
+	});
 	const navigate = useNavigate();
 
 	function handleForm(e) {
@@ -39,7 +44,7 @@ function NewEntryPage() {
 
 	return (
 		<Wrapper>
-			<p>Nova Entrada</p>
+			<p>{location.state.type === "in" ? "Nova entrada" : "Nova saída"}</p>
 			<form onSubmit={sendExpense}>
 				<StyledInput
 					name='value'
@@ -53,7 +58,9 @@ function NewEntryPage() {
 					value={form.description}
 					onChange={handleForm}
 				/>
-				<FullWidthButton>Salvar entrada</FullWidthButton>
+				<FullWidthButton>
+					{location.state.type === "in" ? "Salvar entrada" : "Salvar saída"}
+				</FullWidthButton>
 			</form>
 		</Wrapper>
 	);
@@ -75,4 +82,4 @@ const Wrapper = styled(StyledWrapper)`
 	}
 `;
 
-export default NewEntryPage;
+export default NewExpensePage;
