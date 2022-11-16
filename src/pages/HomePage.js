@@ -7,9 +7,11 @@ import styled from "styled-components";
 import { HalfWidthButton } from "../assets/styles/Buttons";
 import { URLS } from "../assets/constants/URLS";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function HomePage() {
 	const User = useContext(LoginContext);
+	const navigate = useNavigate();
 
 	const [expenses, setExpenses] = useState([]);
 
@@ -32,7 +34,7 @@ function HomePage() {
 			<Topbar username={User.name} />
 			<Registry expenses={expenses} />
 			<ButtonsWrapper>
-				<HalfWidthButton>
+				<HalfWidthButton onClick={() => navigate("/entry")}>
 					<ion-icon name='add-circle-outline'></ion-icon>
 					<ButtonsText>Nova entrada</ButtonsText>
 				</HalfWidthButton>

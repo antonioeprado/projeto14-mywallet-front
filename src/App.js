@@ -5,6 +5,7 @@ import SignUpPage from "./pages/SignUpPage";
 import { useState } from "react";
 import { LoginContext } from "./assets/contexts/UserContext";
 import HomePage from "./pages/HomePage";
+import NewEntryPage from "./pages/NewEntryPage";
 
 function App() {
 	const [user, setUser] = useState({ name: "", email: "", token: "" });
@@ -26,6 +27,10 @@ function App() {
 						path='/home'
 						element={<HomePage />}
 					/>
+					<Route
+						path='/entry'
+						element={<NewEntryPage />}
+					></Route>
 				</Routes>
 			</Router>
 		</LoginContext.Provider>

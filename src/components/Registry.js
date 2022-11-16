@@ -5,17 +5,22 @@ function Registry(props) {
 	const { expenses } = props;
 	return (
 		<RegistryWrapper>
-			{expenses
-				? expenses.map((expense) => (
-						<StyledParagraph type={expense.type}>
-							<span>
-								{expense.date}{" "}
-								<span style={{ color: "#000000" }}>{expense.description}</span>
-							</span>
-							<span>{expense.value}</span>
-						</StyledParagraph>
-				  ))
-				: "Não há registros de entrada ou saída"}
+			{expenses ? (
+				expenses.map((expense) => (
+					<StyledParagraph
+						key={expense.id}
+						type={expense.type}
+					>
+						<span>
+							{expense.date}{" "}
+							<span style={{ color: "#000000" }}>{expense.description}</span>
+						</span>
+						<span>{expense.value}</span>
+					</StyledParagraph>
+				))
+			) : (
+				<div>Não há registros de entrada ou saída</div>
+			)}
 		</RegistryWrapper>
 	);
 }
@@ -29,7 +34,13 @@ const RegistryWrapper = styled.div`
 	height: 446px;
 	border-radius: 5px;
 	background-color: #fff;
-	font-size: 20px;
+	& > div {
+		width: 180px;
+		height: 46px;
+		text-align: center;
+		font-size: 20px;
+		color: #868686;
+	}
 `;
 
 const StyledParagraph = styled.p`
