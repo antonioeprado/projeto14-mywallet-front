@@ -1,13 +1,18 @@
 import React from "react";
 import { textColor } from "../assets/styles/Colors";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 function Topbar(props) {
+	const navigate = useNavigate();
 	const { username } = props;
 	return (
 		<TopbarWrapper>
 			<StyledParagraph>Olá, {username}</StyledParagraph>
-			<ion-icon name='exit-outline'></ion-icon>
+			<ion-icon
+				onClick={() => navigate("/")}
+				name='exit-outline'
+			></ion-icon>
 		</TopbarWrapper>
 	);
 }

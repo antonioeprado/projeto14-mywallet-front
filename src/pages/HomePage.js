@@ -17,12 +17,12 @@ function HomePage() {
 		const config = {
 			method: "get",
 			headers: {
-				Authorization: `Bearer + ${User.token}`,
+				Authorization: `Bearer ${User.token}`,
 			},
 		};
 		axios(URLS.expenses, config)
 			.then((res) => {
-				setExpenses(res?.data.expenses);
+				setExpenses(res.data.expenses);
 			})
 			.catch((err) => console.log(err));
 	}, []);
@@ -30,7 +30,7 @@ function HomePage() {
 	return (
 		<StyledWrapper>
 			<Topbar username={User.name} />
-			<Registry />
+			<Registry expenses={expenses} />
 			<ButtonsWrapper>
 				<HalfWidthButton>
 					<ion-icon name='add-circle-outline'></ion-icon>
