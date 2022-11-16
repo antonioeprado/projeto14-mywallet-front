@@ -10,6 +10,7 @@ import { URLS } from "../assets/constants/URLS";
 
 function SignInPage(props) {
 	const [signInForm, setSignInForm] = useState({ email: "", password: "" });
+	const { setUser } = props;
 	const navigate = useNavigate();
 
 	function signIn(e) {
@@ -26,7 +27,7 @@ function SignInPage(props) {
 		};
 		axios(URLS.signIn, config)
 			.then((res) => {
-				console.log(res.data);
+				setUser(res.data);
 				navigate("/home");
 			})
 			.catch((err) => console.log(err.response.data));
