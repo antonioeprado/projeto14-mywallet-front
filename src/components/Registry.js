@@ -11,6 +11,13 @@ function Registry(props) {
 		trailingZeroDisplay: "auto",
 	});
 
+	function confirmDelete(item) {
+		const res = window.confirm("Você deseja deletar esse registro?");
+		if (res) {
+			removeExpense(item);
+		}
+	}
+
 	function removeExpense(item) {
 		const config = {
 			method: "delete",
@@ -42,7 +49,7 @@ function Registry(props) {
 							</span>
 							<span>
 								{numFormat.format(expense.value)}{" "}
-								<span onClick={() => removeExpense(expense.item)}>x</span>
+								<span onClick={() => confirmDelete(expense.item)}>x</span>
 							</span>
 						</StyledParagraph>
 					))
