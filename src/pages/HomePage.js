@@ -29,7 +29,7 @@ function HomePage() {
 				setTotalBalance(res.data.total);
 			})
 			.catch((err) => console.log(err));
-	}, []);
+	}, [User.token]);
 
 	return (
 		<StyledWrapper>

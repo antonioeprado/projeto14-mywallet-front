@@ -63,18 +63,21 @@ function SignUpPage() {
 					placeholder='E-mail'
 					onChange={handleForm}
 					value={signUpForm.email}
+					type='email'
 				/>
 				<StyledInput
 					name='password'
 					placeholder='Senha'
 					onChange={handleForm}
 					value={signUpForm.password}
+					type='password'
 				/>
 				<StyledInput
 					name='repassword'
 					placeholder='Confirme a senha'
 					onChange={handleForm}
 					value={signUpForm.repassword}
+					type='password'
 				/>
 				<FullWidthButton>Cadastrar</FullWidthButton>
 			</form>

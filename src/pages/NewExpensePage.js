@@ -51,6 +51,9 @@ function NewExpensePage() {
 					placeholder='Valor'
 					value={form.value}
 					onChange={handleForm}
+					type='number'
+					min='0'
+					step='0.01'
 				/>
 				<StyledInput
 					name='description'

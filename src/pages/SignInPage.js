@@ -53,12 +53,14 @@ function SignInPage(props) {
 					placeholder='E-mail'
 					value={signInForm.email}
 					onChange={handleForm}
+					type='email'
 				/>
 				<StyledInput
 					name='password'
 					placeholder='Senha'
 					value={signInForm.password}
 					onChange={handleForm}
+					type='password'
 				/>
 				<FullWidthButton>Entrar</FullWidthButton>
 			</form>
