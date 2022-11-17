@@ -1,5 +1,6 @@
 import axios from "axios";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { URLS } from "../assets/constants/URLS";
 
@@ -10,6 +11,7 @@ function Registry(props) {
 		minimumFractionDigits: 2,
 		trailingZeroDisplay: "auto",
 	});
+	const navigate = useNavigate();
 
 	function confirmDelete(item) {
 		const res = window.confirm("Você deseja deletar esse registro?");
@@ -42,6 +44,16 @@ function Registry(props) {
 							key={index}
 							item={expense.item}
 							type={expense.type}
+							onClick={() =>
+								navigate("/entry", {
+									state: {
+										item: expense.item,
+										description: expense.description,
+										type: expense.type,
+										value: expense.value,
+									},
+								})
+							}
 						>
 							<span>
 								{expense.date}{" "}
@@ -94,6 +106,7 @@ const StyledParagraph = styled.p`
 	font-size: 16px;
 	line-height: 24px;
 	color: #868686;
+	cursor: pointer;
 	span:last-child {
 		line-height: 19px;
 		text-align: right;

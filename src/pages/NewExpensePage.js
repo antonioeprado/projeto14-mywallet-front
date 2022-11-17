@@ -12,8 +12,8 @@ function NewExpensePage() {
 	const location = useLocation();
 	const { token } = useContext(LoginContext);
 	const [form, setForm] = useState({
-		value: "",
-		description: "",
+		value: location.state.item ? location.state.value : "",
+		description: location.state.item ? location.state.description : "",
 		type: location.state.type,
 	});
 	const navigate = useNavigate();
@@ -29,7 +29,7 @@ function NewExpensePage() {
 	function sendExpense(e) {
 		e.preventDefault();
 		const config = {
-			method: "post",
+			method: location.state.item ? "put" : "post",
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},
@@ -42,7 +42,33 @@ function NewExpensePage() {
 			.catch((err) => console.log(err));
 	}
 
-	return (
+	return location.state.item ? (
+		<Wrapper>
+			<p>{location.state.type === "in" ? "Editar entrada" : "Editar saída"}</p>
+			<form onSubmit={sendExpense}>
+				<StyledInput
+					name='value'
+					placeholder='Valor'
+					value={form.value}
+					onChange={handleForm}
+					type='number'
+					min='0'
+					step='0.01'
+				/>
+				<StyledInput
+					name='description'
+					placeholder='Descrição'
+					value={form.description}
+					onChange={handleForm}
+				/>
+				<FullWidthButton>
+					{location.state.type === "in"
+						? "Atualizar entrada"
+						: "Atualizar saída"}
+				</FullWidthButton>
+			</form>
+		</Wrapper>
+	) : (
 		<Wrapper>
 			<p>{location.state.type === "in" ? "Nova entrada" : "Nova saída"}</p>
 			<form onSubmit={sendExpense}>
