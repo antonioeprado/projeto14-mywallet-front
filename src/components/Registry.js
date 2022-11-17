@@ -1,20 +1,39 @@
+import axios from "axios";
 import React from "react";
 import styled from "styled-components";
+import { URLS } from "../assets/constants/URLS";
 
 function Registry(props) {
-	const { expenses, totalBalance } = props;
+	const { expenses, totalBalance, token, trigger, setTrigger } = props;
 	const numFormat = new Intl.NumberFormat("pt-BR", {
 		maximumFractionDigits: 2,
 		minimumFractionDigits: 2,
 		trailingZeroDisplay: "auto",
 	});
+
+	function removeExpense(item) {
+		const config = {
+			method: "delete",
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+			data: {
+				item,
+			},
+		};
+		axios(URLS.expenses, config)
+			.then((res) => setTrigger(!trigger))
+			.catch((err) => console.log(err.response.data));
+	}
+
 	return (
-		<RegistryWrapper>
+		<RegistryWrapper expense={expenses}>
 			<div>
 				{expenses ? (
-					expenses.map((expense) => (
+					expenses.map((expense, index) => (
 						<StyledParagraph
-							key={expense.item}
+							key={index}
+							item={expense.item}
 							type={expense.type}
 						>
 							<span>
@@ -22,7 +41,8 @@ function Registry(props) {
 								<span style={{ color: "#000000" }}>{expense.description}</span>
 							</span>
 							<span>
-								{numFormat.format(expense.value)} <span>x</span>
+								{numFormat.format(expense.value)}{" "}
+								<span onClick={() => removeExpense(expense.item)}>x</span>
 							</span>
 						</StyledParagraph>
 					))
@@ -42,7 +62,7 @@ function Registry(props) {
 const RegistryWrapper = styled.div`
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
+	justify-content: ${(props) => (props.expense ? "space-between" : "center")};
 	flex-flow: column nowrap;
 	width: 326px;
 	height: 446px;
