@@ -14,6 +14,7 @@ function HomePage() {
 	const navigate = useNavigate();
 
 	const [expenses, setExpenses] = useState([]);
+	const [totalBalance, setTotalBalance] = useState(0);
 
 	useEffect(() => {
 		const config = {
@@ -25,6 +26,7 @@ function HomePage() {
 		axios(URLS.expenses, config)
 			.then((res) => {
 				setExpenses(res.data.expenses);
+				setTotalBalance(res.data.total);
 			})
 			.catch((err) => console.log(err));
 	}, []);
@@ -32,7 +34,10 @@ function HomePage() {
 	return (
 		<StyledWrapper>
 			<Topbar username={User.name} />
-			<Registry expenses={expenses} />
+			<Registry
+				expenses={expenses}
+				totalBalance={totalBalance}
+			/>
 			<ButtonsWrapper>
 				<HalfWidthButton
 					onClick={() => navigate("/entry", { state: { type: "in" } })}
