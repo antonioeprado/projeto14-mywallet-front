@@ -15,6 +15,7 @@ function HomePage() {
 
 	const [expenses, setExpenses] = useState([]);
 	const [totalBalance, setTotalBalance] = useState(0);
+	const [triggerReload, setTriggerReload] = useState(false);
 
 	useEffect(() => {
 		const config = {
@@ -29,7 +30,7 @@ function HomePage() {
 				setTotalBalance(res.data.total);
 			})
 			.catch((err) => console.log(err));
-	}, [User.token]);
+	}, [User.token, triggerReload]);
 
 	return (
 		<StyledWrapper>
@@ -37,6 +38,9 @@ function HomePage() {
 			<Registry
 				expenses={expenses}
 				totalBalance={totalBalance}
+				token={User.token}
+				trigger={triggerReload}
+				setTrigger={setTriggerReload}
 			/>
 			<ButtonsWrapper>
 				<HalfWidthButton

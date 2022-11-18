@@ -1,22 +1,72 @@
+import axios from "axios";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { URLS } from "../assets/constants/URLS";
 
 function Registry(props) {
-	const { expenses, totalBalance } = props;
+	const { expenses, totalBalance, token, trigger, setTrigger } = props;
+	const numFormat = new Intl.NumberFormat("pt-BR", {
+		maximumFractionDigits: 2,
+		minimumFractionDigits: 2,
+		trailingZeroDisplay: "auto",
+	});
+	const navigate = useNavigate();
+
+	function confirmDelete(item) {
+		const res = window.confirm("Você deseja deletar esse registro?");
+		if (res) {
+			removeExpense(item);
+		}
+	}
+
+	function removeExpense(item) {
+		const config = {
+			method: "delete",
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+			data: {
+				item,
+			},
+		};
+		axios(URLS.expenses, config)
+			.then((res) => setTrigger(!trigger))
+			.catch((err) => console.log(err.response.data));
+	}
+
 	return (
-		<RegistryWrapper>
+		<RegistryWrapper expense={expenses}>
 			<div>
 				{expenses ? (
-					expenses.map((expense) => (
+					expenses.map((expense, index) => (
 						<StyledParagraph
-							key={expense.item}
+							key={index}
+							item={expense._id}
 							type={expense.type}
 						>
 							<span>
 								{expense.date}{" "}
-								<span style={{ color: "#000000" }}>{expense.description}</span>
+								<span
+									style={{ color: "#000000" }}
+									onClick={() =>
+										navigate("/entry", {
+											state: {
+												item: expense._id,
+												description: expense.description,
+												type: expense.type,
+												value: expense.value,
+											},
+										})
+									}
+								>
+									{expense.description}
+								</span>
 							</span>
-							<span>{expense.value}</span>
+							<span>
+								{numFormat.format(expense.value)}{" "}
+								<span onClick={() => confirmDelete(expense._id)}>x</span>
+							</span>
 						</StyledParagraph>
 					))
 				) : (
@@ -25,7 +75,7 @@ function Registry(props) {
 			</div>
 			{totalBalance && (
 				<TotalBalanceRegister total={totalBalance}>
-					Saldo: <span>{totalBalance}</span>
+					Saldo: <span>{numFormat.format(totalBalance)}</span>
 				</TotalBalanceRegister>
 			)}
 		</RegistryWrapper>
@@ -35,18 +85,19 @@ function Registry(props) {
 const RegistryWrapper = styled.div`
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
+	justify-content: ${(props) => (props.expense ? "space-between" : "center")};
 	flex-flow: column nowrap;
 	width: 326px;
 	height: 446px;
 	border-radius: 5px;
 	background-color: #fff;
-	& > div > {
+	& > div > div {
 		width: 180px;
 		height: 46px;
 		text-align: center;
 		font-size: 20px;
 		color: #868686;
+		margin: auto;
 	}
 `;
 
@@ -59,8 +110,18 @@ const StyledParagraph = styled.p`
 	font-size: 16px;
 	line-height: 24px;
 	color: #868686;
+	cursor: pointer;
 	span:last-child {
+		line-height: 19px;
+		text-align: right;
 		color: ${(props) => (props.type === "in" ? "#03AC00" : "#C70000")};
+		span {
+			font-size: 16px;
+			line-height: 19px;
+			cursor: pointer;
+			margin-left: 10px;
+			color: #c6c6c6;
+		}
 	}
 `;
 
