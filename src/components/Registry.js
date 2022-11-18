@@ -42,26 +42,30 @@ function Registry(props) {
 					expenses.map((expense, index) => (
 						<StyledParagraph
 							key={index}
-							item={expense.item}
+							item={expense._id}
 							type={expense.type}
-							onClick={() =>
-								navigate("/entry", {
-									state: {
-										item: expense.item,
-										description: expense.description,
-										type: expense.type,
-										value: expense.value,
-									},
-								})
-							}
 						>
 							<span>
 								{expense.date}{" "}
-								<span style={{ color: "#000000" }}>{expense.description}</span>
+								<span
+									style={{ color: "#000000" }}
+									onClick={() =>
+										navigate("/entry", {
+											state: {
+												item: expense._id,
+												description: expense.description,
+												type: expense.type,
+												value: expense.value,
+											},
+										})
+									}
+								>
+									{expense.description}
+								</span>
 							</span>
 							<span>
 								{numFormat.format(expense.value)}{" "}
-								<span onClick={() => confirmDelete(expense.item)}>x</span>
+								<span onClick={() => confirmDelete(expense._id)}>x</span>
 							</span>
 						</StyledParagraph>
 					))

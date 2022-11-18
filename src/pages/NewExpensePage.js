@@ -37,6 +37,9 @@ function NewExpensePage() {
 				...form,
 			},
 		};
+		if (location.state.item) {
+			config.data.item = location.state.item;
+		}
 		axios(URLS.expenses, config)
 			.then(navigate("/home"))
 			.catch((err) => console.log(err));
