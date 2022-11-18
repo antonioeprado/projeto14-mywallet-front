@@ -1,5 +1,5 @@
 export const URLS = {
-	signIn: "http://localhost:5000/sign-in",
-	signUp: "http://localhost:5000/sign-up",
-	expenses: "http://localhost:5000/expenses",
+	signIn: "https://mywallet-service-api.onrender.com/sign-in",
+	signUp: "https://mywallet-service-api.onrender.com/sign-up",
+	expenses: "https://mywallet-service-api.onrender.com/expenses",
 };
