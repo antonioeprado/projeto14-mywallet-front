@@ -6,6 +6,7 @@ import { useState } from "react";
 import { LoginContext } from "./assets/contexts/UserContext";
 import HomePage from "./pages/HomePage";
 import NewExpensePage from "./pages/NewExpensePage";
+import UpdateExpensePage from "./pages/UpdateExpense";
 
 function App() {
 	const [user, setUser] = useState({ name: "", email: "", token: "" });
@@ -30,6 +31,10 @@ function App() {
 					<Route
 						path='/entry'
 						element={<NewExpensePage />}
+					></Route>
+					<Route
+						path='/update'
+						element={<UpdateExpensePage />}
 					></Route>
 				</Routes>
 			</Router>

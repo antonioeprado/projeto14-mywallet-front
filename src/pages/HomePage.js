@@ -1,47 +1,20 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { LoginContext } from "../assets/contexts/UserContext";
 import { StyledWrapper } from "../assets/styles/PageWrapper";
 import Registry from "../components/Registry";
 import Topbar from "../components/Topbar";
 import styled from "styled-components";
 import { HalfWidthButton } from "../assets/styles/Buttons";
-import { URLS } from "../assets/constants/URLS";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function HomePage() {
-	const User = useContext(LoginContext);
+	const { name } = useContext(LoginContext);
 	const navigate = useNavigate();
-
-	const [expenses, setExpenses] = useState([]);
-	const [totalBalance, setTotalBalance] = useState(0);
-	const [triggerReload, setTriggerReload] = useState(false);
-
-	useEffect(() => {
-		const config = {
-			method: "get",
-			headers: {
-				Authorization: `Bearer ${User.token}`,
-			},
-		};
-		axios(URLS.expenses, config)
-			.then((res) => {
-				setExpenses(res.data.expenses);
-				setTotalBalance(res.data.total);
-			})
-			.catch((err) => console.log(err));
-	}, [User.token, triggerReload]);
 
 	return (
 		<StyledWrapper>
-			<Topbar username={User.name} />
-			<Registry
-				expenses={expenses}
-				totalBalance={totalBalance}
-				token={User.token}
-				trigger={triggerReload}
-				setTrigger={setTriggerReload}
-			/>
+			<Topbar username={name} />
+			<Registry />
 			<ButtonsWrapper>
 				<HalfWidthButton
 					onClick={() => navigate("/entry", { state: { type: "in" } })}

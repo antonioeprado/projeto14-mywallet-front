@@ -8,13 +8,16 @@ import { StyledWrapper } from "../assets/styles/PageWrapper";
 import { StyledInput } from "../assets/styles/Input";
 import { LoginContext } from "../assets/contexts/UserContext";
 
-function NewExpensePage() {
+function UpdateExpensePage() {
 	const location = useLocation();
+	const { _id, description, type, value } = location.state.item;
+
 	const { token } = useContext(LoginContext);
 	const [form, setForm] = useState({
-		value: "",
-		description: "",
-		type: location.state.type,
+		item: _id,
+		value,
+		description,
+		type,
 	});
 	const navigate = useNavigate();
 
@@ -29,7 +32,7 @@ function NewExpensePage() {
 	function sendExpense(e) {
 		e.preventDefault();
 		const config = {
-			method: "post",
+			method: "put",
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},
@@ -44,7 +47,7 @@ function NewExpensePage() {
 
 	return (
 		<Wrapper>
-			<p>{location.state.type === "in" ? "Nova entrada" : "Nova saída"}</p>
+			<p>{location.state.type === "in" ? "Editar entrada" : "Editar saída"}</p>
 			<form onSubmit={sendExpense}>
 				<StyledInput
 					name='value'
@@ -62,7 +65,9 @@ function NewExpensePage() {
 					onChange={handleForm}
 				/>
 				<FullWidthButton>
-					{location.state.type === "in" ? "Salvar entrada" : "Salvar saída"}
+					{location.state.type === "in"
+						? "Atualizar entrada"
+						: "Atualizar saída"}
 				</FullWidthButton>
 			</form>
 		</Wrapper>
@@ -85,4 +90,4 @@ const Wrapper = styled(StyledWrapper)`
 	}
 `;
 
-export default NewExpensePage;
+export default UpdateExpensePage;
